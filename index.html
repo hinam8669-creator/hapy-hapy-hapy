@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Trái tim 20/10 12D02</title>
+<style>
+  :root{
+    --size: min(60vmin, 320px);
+    --heart-color: #e63946;
+    --bg: #fff8f9;
+  }
+  html,body{
+    height:100%;
+    margin:0;
+    background:var(--bg);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .wrap{
+    min-height:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    padding:20px;
+  }
+
+  /* Tim đập */
+  @keyframes beat {
+    0%, 100% { transform: scale(1) rotate(-45deg); }
+    25% { transform: scale(1.05) rotate(-45deg); }
+    50% { transform: scale(0.98) rotate(-45deg); }
+    75% { transform: scale(1.06) rotate(-45deg); }
+  }
+
+  .heart {
+    width: var(--size);
+    height: calc(var(--size) * 0.9);
+    position: relative;
+    background: var(--heart-color);
+    border-radius: 10px 10px 0 0;
+    animation: beat 1.4s infinite;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .heart::before,
+  .heart::after {
+    content:"";
+    width: var(--size);
+    height: calc(var(--size) * 0.9);
+    background: var(--heart-color);
+    position: absolute;
+    border-radius: 50%;
+  }
+  .heart::before { top: calc(-0.55 * var(--size)); left: 0; }
+  .heart::after  { left: calc(0.55 * var(--size)); top: 0; }
+
+  /* Hộp bên trong */
+  .box {
+    width: calc(var(--size) * 0.36);
+    height: calc(var(--size) * 0.36);
+    position: relative;
+    transform: rotate(45deg);
+    perspective: 800px;
+  }
+  .card {
+    width:100%;
+    height:100%;
+    position:relative;
+    transform-style: preserve-3d;
+    transition: transform 0.6s cubic-bezier(.2,.9,.3,1);
+  }
+  .box.open .card { transform: rotateY(180deg); }
+
+  .face {
+    position:absolute;
+    width:100%;
+    height:100%;
+    backface-visibility: hidden;
+    border-radius:8px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+  .front {
+    background: rgba(255,255,255,0.95);
+    color:#333;
+  }
+  .back {
+    background: linear-gradient(180deg, #fff8f0, #ffe9df);
+    color:#a33;
+    font-weight:600;
+    transform: rotateY(180deg);
+  }
+  .front .mini {
+    font-size: calc(var(--size) * 0.12);
+  }
+  .hint {
+    text-align:center;
+    color:#7a6b6b;
+    font-size:14px;
+    margin-top:16px;
+  }
+
+  /* Nhịp tim mượt hơn */
+  .heart {
+    transform-origin: center;
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="heart">
+      <div id="giftBox" class="box">
+        <div class="card">
+          <div class="face front">
+            <div>
+              <div class="mini">🎁</div>
+              <div>Chạm để mở</div>
+            </div>
+          </div><div class="face back">
+            🎉<br>
+            <b>Chúc Các Bạn Nữ<br>12D02<br>20/10 Vui Vẻ 💖</b>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="hint">💓 Chạm vào hộp trong tim để mở 💓</div>
+  </div>
+
+  <!-- Nhạc nền -->
+  <audio id="bgMusic" loop preload="auto">
+    <source src="https://cdn.pixabay.com/audio/2023/03/09/audio_f2be33c91c.mp3" type="audio/mpeg">
+  </audio>
+
+<script>
+  const box = document.getElementById('giftBox');
+  const music = document.getElementById('bgMusic');
+  let playing = false;
+
+  box.addEventListener('click', () => {
+    box.classList.toggle('open');
+    if (!playing) {
+      music.play().catch(()=>{}); // phát nhạc
+      playing = true;
+    }
+  });
+</script>
+</body>
+</html>
